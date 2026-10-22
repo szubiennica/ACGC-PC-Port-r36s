@@ -1,0 +1,21 @@
+name: build-armhf
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: debian:bookworm
+    steps:
+      - name: Install tools
+        run: |
+          apt-get update
+          apt-get install -y git ca-certificates
+          dpkg --add-architecture armhf
+          apt-get update
+          apt-get install -y cmake make pkg-config gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf libsdl2-dev:armhf libgles-dev:armhf libegl-dev:armhf
+      - uses: actions/checkout@v4
+      - name: Build
+        run: ./build_make.sh --armhf --gles
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AnimalCrossing-armhf
+          path: pc/build32/bin/
