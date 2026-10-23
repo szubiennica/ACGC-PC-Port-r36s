@@ -3,7 +3,7 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: debian:bookworm
+    container: debian:bullseye
     steps:
       - name: Install tools
         run: |
