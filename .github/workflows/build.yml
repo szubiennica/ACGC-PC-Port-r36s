@@ -5,6 +5,13 @@ jobs:
     runs-on: ubuntu-latest
     container: debian:bullseye
     steps:
+      - name: Point apt at the Debian archive
+        run: |
+          cat > /etc/apt/sources.list <<'EOF'
+          deb http://archive.debian.org/debian bullseye main
+          deb http://archive.debian.org/debian-security bullseye-security main
+          EOF
+          echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99archive
       - name: Install tools
         run: |
           apt-get update
